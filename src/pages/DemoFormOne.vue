@@ -53,5 +53,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <FormGenerator :schema="formSchema" v-model:model="formData" @save="onSave" @cancel="onCancel" />
+  <FormGenerator :schema="formSchema" v-model:model="formData" @save="onSave" @cancel="onCancel">
+  <template #bio-custom>
+    <textarea
+      v-model="formData.bio as string"
+      placeholder="Расскажите о себе красиво..."
+      rows="5"
+      class="form-control custom-textarea"
+    ></textarea>
+  </template>
+</FormGenerator>
 </template>
