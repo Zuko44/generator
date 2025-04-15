@@ -1,6 +1,10 @@
 <script lang="ts" setup>
-import { defineProps, defineEmits } from 'vue';
+import { defineEmits, defineProps } from 'vue';
 import type { FormSchema, FormModel } from '../models/form-types';
+import InputField from './fields/InputField.vue';
+import SelectField from './fields/SelectField.vue';
+import TextareaField from './fields/TextareaField.vue';
+import CheckboxField from './fields/CheckboxField.vue';
 
 defineProps<{
   schema: FormSchema;
@@ -23,40 +27,42 @@ const handleCancel = () => {
     <div v-for="(field, key) in schema" :key="key" class="form-group">
       <label :for="key">{{ field.label }}</label>
 
-      <slot :name="key + '-custom'">
-        <input
+      <template v-if="$slots[key + '-custom']">
+        <slot :name="key + '-custom'" :model="model" :field="field" :key-name="key"></slot>
+      </template>
+
+      <template v-else>
+        <InputField
           v-if="field.type === 'input'"
-          v-model="model[key]"
-          v-bind="field.attrs"
-          :id="key"
-          class="form-control"
+          :field="field"
+          :key-name="key"
+          :model="model"
         />
-        <select
+
+        <SelectField
           v-else-if="field.type === 'select'"
-          v-model="model[key]"
-          :id="key"
-          class="form-control"
-        >
-          <option v-for="option in field.options" :key="option.value" :value="option.value">
-            {{ option.label }}
-          </option>
-        </select>
-        <textarea
-          v-else-if="field.type === 'textarea'"
-          v-model="model[key] as string"
-          v-bind="field.attrs"
-          :id="key"
-          class="form-control"
-        ></textarea>
-        <input
-          v-else-if="field.type === 'checkbox'"
-          type="checkbox"
-          v-model="model[key]"
-          :id="key"
+          :field="field"
+          :key-name="key"
+          :model="model"
         />
-      </slot>
+
+        <TextareaField
+          v-else-if="field.type === 'textarea'"
+          :field="field"
+          :key-name="key"
+          :model="model"
+        />
+
+        <CheckboxField
+          v-else-if="field.type === 'checkbox'"
+          :field="field"
+          :key-name="key"
+          :model="model"
+        />
+      </template>
     </div>
+
     <button @click="handleSave">Сохранить</button>
-    <button @click="handleCancel">Отменить</button>
+    <button @click="handleCancel">Вернуть</button>
   </form>
 </template>

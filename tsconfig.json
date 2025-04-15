@@ -6,6 +6,9 @@
       "vuex": ["node_modules/vuex/types/index.d.ts"]
     }
   },
+  "vueCompilerOptions": {
+    "strictTemplates": false
+  },
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
