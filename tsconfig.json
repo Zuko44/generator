@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "types": ["vuex"],
+    "baseUrl": ".",
+    "paths": {
+      "vuex": ["node_modules/vuex/types/index.d.ts"]
+    }
+  },
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
+}
